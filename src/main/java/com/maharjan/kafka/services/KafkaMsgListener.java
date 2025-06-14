@@ -1,5 +1,6 @@
 package com.maharjan.kafka.services;
 
+import com.maharjan.kafka.dto.Customer;
 import com.maharjan.kafka.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,5 +39,11 @@ public class KafkaMsgListener {
     @KafkaListener(topics = Constants.KAFKA_TOPIC_PARTITION_5, groupId = Constants.KAFKA_GROUP_ID)
     public void listen6(String msg) {
         logger.info("Consumer6 consumed the msg = {}", msg);
+    }
+
+    // Listen to Customer object
+    @KafkaListener(topics = Constants.KAFKA_CUSTOMER_TOPIC, groupId = Constants.KAFKA_CUSTOMER_GROUP)
+    public void listenCustomer(Customer customer) {
+        logger.info("Consumer consumed the customer = {}", customer.toString());
     }
 }
