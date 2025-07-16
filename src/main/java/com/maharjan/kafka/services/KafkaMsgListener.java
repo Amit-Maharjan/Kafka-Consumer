@@ -5,6 +5,7 @@ import com.maharjan.kafka.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,6 +40,13 @@ public class KafkaMsgListener {
     @KafkaListener(topics = Constants.KAFKA_TOPIC_PARTITION_5, groupId = Constants.KAFKA_GROUP_ID)
     public void listen6(String msg) {
         logger.info("Consumer6 consumed the msg = {}", msg);
+    }
+
+    // Listen to a particular partition only
+    @KafkaListener(topics = Constants.KAFKA_TOPIC_PARTITION_5, groupId = Constants.KAFKA_GROUP_ID,
+            topicPartitions = {@TopicPartition(topic = Constants.KAFKA_TOPIC_PARTITION_5, partitions = {"2"})})
+    public void listen(String msg) {
+        logger.info("Only consuming from partition 2 with the msg = {}", msg);
     }
 
     // Listen to Customer object
