@@ -5,4 +5,6 @@ public class Constants {
     public static final String KAFKA_GROUP_ID = "kafka-group-id";
     public static final String KAFKA_CUSTOMER_TOPIC = "kafka-customer-topic";
     public static final String KAFKA_CUSTOMER_GROUP = "kafka-customer-group";
+    public static final String KAFKA_USER_TOPIC = "kafka-user-topic";
+    public static final String KAFKA_USER_GROUP = "kafka-user-group";
 }
