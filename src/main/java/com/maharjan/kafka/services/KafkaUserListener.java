@@ -11,6 +11,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,9 @@ import java.util.stream.Stream;
 public class KafkaUserListener {
     Logger logger = LoggerFactory.getLogger(KafkaUserListener.class);
 
-    @RetryableTopic(attempts = "4") // Default attempts = 3
+    @RetryableTopic(attempts = "4", // Default attempts = 3
+            backoff = @Backoff(delay = 3000, multiplier = 2, maxDelay = 15000), // Delay = 3 sec and MaxDelay = 15 sec
+            exclude = {NullPointerException.class, JsonProcessingException.class})
     @KafkaListener(topics = Constants.KAFKA_USER_TOPIC, groupId = Constants.KAFKA_USER_GROUP)
     public void listenUser(User user, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
         try {
